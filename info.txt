@@ -1,0 +1,12 @@
+xfermode
+android crop bitmap canvas
+
+
+https://developer.android.com/reference/android/graphics/PorterDuff.Mode#SRC_IN
+https://android--examples.blogspot.com/2015/11/android-color-filter-and-different.html
+https://stackoverflow.com/questions/36943983/android-crop-bitmap-canvas
+https://medium.com/@Tarek360/crop-a-shape-from-an-android-bitmap-9690b7432774
+https://stackoverflow.com/questions/46227332/what-do-porterduff-source-and-destination-refer-to-when-drawing-on-canvas
+https://www.programcreek.com/java-api-examples/index.php?api=android.graphics.PorterDuff.Mode
+http://www.javased.com/index.php?api=android.graphics.PorterDuff.Mode
+http://www.javased.com/index.php?source_dir=eoit/EOIT/src/fr/eoit/util/IconUtil.java
