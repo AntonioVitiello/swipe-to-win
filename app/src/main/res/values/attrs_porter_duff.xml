@@ -3,5 +3,6 @@
     <declare-styleable name="PorterDuffAttrs">
         <attr name="aboveSrc" format="reference" />
         <attr name="belowSrc" format="reference" />
+        <attr name="scaleRatio" format="integer" />
     </declare-styleable>
 </resources>

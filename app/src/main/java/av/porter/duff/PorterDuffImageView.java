@@ -21,14 +21,15 @@ import java.io.InputStream;
 /**
  * Created by Antonio Vitiello on 29/06/2018.
  */
-public class PorterDuffView extends AppCompatImageView {
-    private Bitmap aboveBitmap, drawBitmap, scaledAboveBitmap;
+public class PorterDuffImageView extends AppCompatImageView {
+    private Bitmap mAboveBitmap, mDrawBitmap, mScaledAboveBitmap;
     private Paint mPaint;
     private float mX, mY;
     private Path mPath = new Path();
     private Canvas mDrawCanvas = new Canvas();
     public int mScreenWidth;
     public int mScreenHeigth;
+    private int mScaleRatio;
     @RawRes int mAboveResId;
     @DrawableRes int mBelowResId;
 
@@ -37,17 +38,17 @@ public class PorterDuffView extends AppCompatImageView {
     private int[] mPorterDuffAttrs = R.styleable.PorterDuffAttrs;
 
 
-    public PorterDuffView(Context context) {
+    public PorterDuffImageView(Context context) {
         super(context);
         init(context, null, 0);
     }
 
-    public PorterDuffView(Context context, AttributeSet attrs) {
+    public PorterDuffImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0);
     }
 
-    public PorterDuffView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PorterDuffImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -66,6 +67,7 @@ public class PorterDuffView extends AppCompatImageView {
         try {
             mAboveResId = typedArray.getResourceId(R.styleable.PorterDuffAttrs_aboveSrc, -1);
             mBelowResId = typedArray.getResourceId(R.styleable.PorterDuffAttrs_belowSrc, -1);
+            mScaleRatio = typedArray.getInteger(R.styleable.PorterDuffAttrs_scaleRatio, -1);
         } finally {
             typedArray.recycle();
         }
@@ -94,13 +96,13 @@ public class PorterDuffView extends AppCompatImageView {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         InputStream rawStream = getResources().openRawResource(mAboveResId);
-        aboveBitmap = BitmapFactory.decodeStream(rawStream, null, options).copy(Bitmap.Config.ARGB_8888, true);
+        mAboveBitmap = BitmapFactory.decodeStream(rawStream, null, options).copy(Bitmap.Config.ARGB_8888, true);
         options.inSampleSize = 4;    //if picture very large it can optimize 1/2 memory
-        scaledAboveBitmap = Bitmap.createScaledBitmap(aboveBitmap, mScreenWidth, mScreenHeigth, true);
+        mScaledAboveBitmap = Bitmap.createScaledBitmap(mAboveBitmap, mScreenWidth, mScreenHeigth, true);
         mDrawCanvas = new Canvas();
-        drawBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeigth, Bitmap.Config.ARGB_8888).copy(Bitmap.Config.ARGB_8888, true);
-        mDrawCanvas.setBitmap(drawBitmap);
-        mDrawCanvas.drawBitmap(scaledAboveBitmap, mScreenRect, mScreenRect, null);
+        mDrawBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeigth, Bitmap.Config.ARGB_8888).copy(Bitmap.Config.ARGB_8888, true);
+        mDrawCanvas.setBitmap(mDrawBitmap);
+        mDrawCanvas.drawBitmap(mScaledAboveBitmap, mScreenRect, mScreenRect, null);
     }
 
 
@@ -117,7 +119,7 @@ public class PorterDuffView extends AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         this.mDrawCanvas.drawPath(mPath, mPaint);
-        canvas.drawBitmap(drawBitmap, mScreenRect, mScreenRect, null);
+        canvas.drawBitmap(mDrawBitmap, mScreenRect, mScreenRect, null);
     }
 
     @Override
@@ -153,6 +155,10 @@ public class PorterDuffView extends AppCompatImageView {
 
     public void setBelowResource(@DrawableRes int resId) {
         mBelowResId = resId;
+    }
+
+    public void setScaleRatio(int scaleRatio) {
+        mScaleRatio = scaleRatio;
     }
 
 }

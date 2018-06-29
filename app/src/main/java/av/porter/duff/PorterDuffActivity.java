@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 public class PorterDuffActivity extends AppCompatActivity {
-    private PorterDuffView mPorterDuffView;
+    private PorterDuffImageView mPorterDuffView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +17,7 @@ public class PorterDuffActivity extends AppCompatActivity {
          * Set above/below drawable image by layout XML or here by code
          * mPorterDuffView.setAboveResource(R.drawable.img4);
          * mPorterDuffView.setBelowResource(R.drawable.image1);
+         * mPorterDuffView.setScaleRatio(4);
          */
 
     }

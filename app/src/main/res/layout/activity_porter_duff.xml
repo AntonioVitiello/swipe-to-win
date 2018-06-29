@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <av.porter.duff.PorterDuffView
+    <av.porter.duff.PorterDuffImageView
         android:id="@+id/porterDuffView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,6 +17,7 @@
         android:scaleType="centerCrop"
         app:aboveSrc="@drawable/googlepay_sfondo_2"
         app:belowSrc="@drawable/pagamenti_header_googlepay"
+        app:scaleRatio="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
