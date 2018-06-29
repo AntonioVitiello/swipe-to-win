@@ -97,7 +97,8 @@ public class PorterDuffImageView extends AppCompatImageView {
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         InputStream rawStream = getResources().openRawResource(mAboveResId);
         mAboveBitmap = BitmapFactory.decodeStream(rawStream, null, options).copy(Bitmap.Config.ARGB_8888, true);
-        options.inSampleSize = 4;    //if picture very large it can optimize 1/2 memory
+        // if picture very large inSampleSize can optimize memory with subsample of the original image, returning a smaller image
+        options.inSampleSize = mScaleRatio;
         mScaledAboveBitmap = Bitmap.createScaledBitmap(mAboveBitmap, mScreenWidth, mScreenHeigth, true);
         mDrawCanvas = new Canvas();
         mDrawBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeigth, Bitmap.Config.ARGB_8888).copy(Bitmap.Config.ARGB_8888, true);
