@@ -12,8 +12,13 @@ public class PorterDuffActivity extends AppCompatActivity {
         setContentView(R.layout.activity_with_image_view);
 
         mPorterDuffView = findViewById(R.id.porterDuffView);
-        mPorterDuffView.setAboveResource(R.drawable.img4);
-        mPorterDuffView.setBelowResource(R.drawable.image1);
+
+        /**
+         * Set above/below drawable image by layout XML or here by code
+         * mPorterDuffView.setAboveResource(R.drawable.img4);
+         * mPorterDuffView.setBelowResource(R.drawable.image1);
+         */
+
     }
 
 }

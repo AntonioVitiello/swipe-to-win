@@ -1,6 +1,7 @@
 package av.porter.duff;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -31,21 +32,44 @@ public class PorterDuffView extends AppCompatImageView {
     int[] mBelowResIds = new int[1];
     // Bounds of the canvas in float Used to set bounds of member initial and background
     private Rect mScreenRect = new Rect();
+    private int[] mPorterDuffAttrs = R.styleable.PorterDuffAttrs;
 
 
     public PorterDuffView(Context context) {
         super(context);
+        init(context, null, 0);
     }
 
     public PorterDuffView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs, 0);
     }
 
     public PorterDuffView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs, defStyleAttr);
     }
 
-    public void init() {
+    public void init(Context context, AttributeSet attrs, int defStyle) {
+        if (attrs != null) {
+            TypedArray typedArray = context.getTheme().obtainStyledAttributes(
+                    attrs,
+                    mPorterDuffAttrs,
+                    0, 0);
+            readCustomProperties(typedArray);
+        }
+    }
+
+    private void readCustomProperties(TypedArray typedArray) {
+        try {
+            mAboveResIds[0] = typedArray.getResourceId(R.styleable.PorterDuffAttrs_aboveSrc, -1);
+            mBelowResIds[0] = typedArray.getResourceId(R.styleable.PorterDuffAttrs_belowSrc, -1);
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
+    private void updateView() {
         setBackgroundResource(mBelowResIds[0]);
         initPaint();
         initBitmap();
@@ -84,7 +108,7 @@ public class PorterDuffView extends AppCompatImageView {
         mScreenWidth = MeasureSpec.getSize(widthMeasureSpec);
         mScreenHeigth = MeasureSpec.getSize(heightMeasureSpec);
         mScreenRect.set(0, 0, mScreenWidth, mScreenHeigth);
-        init();
+        updateView();
     }
 
     @Override
