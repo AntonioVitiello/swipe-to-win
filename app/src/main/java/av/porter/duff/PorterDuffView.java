@@ -11,6 +11,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.RawRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -28,8 +29,9 @@ public class PorterDuffView extends AppCompatImageView {
     private Canvas mDrawCanvas = new Canvas();
     public int mScreenWidth;
     public int mScreenHeigth;
-    int[] mAboveResIds = new int[1];
-    int[] mBelowResIds = new int[1];
+    @RawRes int mAboveResId;
+    @DrawableRes int mBelowResId;
+
     // Bounds of the canvas in float Used to set bounds of member initial and background
     private Rect mScreenRect = new Rect();
     private int[] mPorterDuffAttrs = R.styleable.PorterDuffAttrs;
@@ -62,15 +64,15 @@ public class PorterDuffView extends AppCompatImageView {
 
     private void readCustomProperties(TypedArray typedArray) {
         try {
-            mAboveResIds[0] = typedArray.getResourceId(R.styleable.PorterDuffAttrs_aboveSrc, -1);
-            mBelowResIds[0] = typedArray.getResourceId(R.styleable.PorterDuffAttrs_belowSrc, -1);
+            mAboveResId = typedArray.getResourceId(R.styleable.PorterDuffAttrs_aboveSrc, -1);
+            mBelowResId = typedArray.getResourceId(R.styleable.PorterDuffAttrs_belowSrc, -1);
         } finally {
             typedArray.recycle();
         }
     }
 
     private void updateView() {
-        setBackgroundResource(mBelowResIds[0]);
+        setBackgroundResource(mBelowResId);
         initPaint();
         initBitmap();
     }
@@ -91,7 +93,7 @@ public class PorterDuffView extends AppCompatImageView {
     private void initBitmap() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        InputStream rawStream = getResources().openRawResource(mAboveResIds[0]);
+        InputStream rawStream = getResources().openRawResource(mAboveResId);
         aboveBitmap = BitmapFactory.decodeStream(rawStream, null, options).copy(Bitmap.Config.ARGB_8888, true);
         options.inSampleSize = 4;    //if picture very large it can optimize 1/2 memory
         scaledAboveBitmap = Bitmap.createScaledBitmap(aboveBitmap, mScreenWidth, mScreenHeigth, true);
@@ -145,12 +147,12 @@ public class PorterDuffView extends AppCompatImageView {
         return true;
     }
 
-    public void setAboveResource(@DrawableRes int resId) {
-        mAboveResIds[0] = resId;
+    public void setAboveResource(@RawRes int resId) {
+        mAboveResId = resId;
     }
 
     public void setBelowResource(@DrawableRes int resId) {
-        mBelowResIds[0] = resId;
+        mBelowResId = resId;
     }
 
 }
