@@ -118,7 +118,7 @@ public class PorterDuffImageView extends AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        this.mDrawCanvas.drawPath(mPath, mPaint);
+        mDrawCanvas.drawPath(mPath, mPaint);
         canvas.drawBitmap(mDrawBitmap, mScreenRect, mScreenRect, null);
     }
 
