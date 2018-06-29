@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     public int screenwidth;
     public int screenheigth;
-    private Rect fullRect;
+    private Rect fullRect = new Rect();
 
 //    int[] belowImageId = new int[]{R.drawable.image1};
 //    int[] aboveImageIds = new int[]{R.drawable.image2};
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         screenwidth = metrics.widthPixels;
         screenheigth = metrics.heightPixels;
         Log.e("AAA", String.format("screenwidth=%d, screenheigth=%d", screenwidth, screenheigth));
-        fullRect = new Rect(0, 0, screenwidth, screenheigth);
+        fullRect.set(0, 0, screenwidth, screenheigth);
         setContentView(new BelowView(this));
     }
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         private Bitmap aboveBitmap, drawBitmap, scaledAboveBitmap;
         private Canvas canvas;
         private Paint mPaint;
-        private Path mPath;
+        private Path mPath = new Path();
         private float mX, mY;
 
         private BelowView(Context context) {
@@ -69,17 +69,17 @@ public class MainActivity extends AppCompatActivity {
             mPaint.setStrokeJoin(Paint.Join.ROUND);
             mPaint.setStrokeCap(Paint.Cap.ROUND);
             mPaint.setStrokeWidth(140);
-            mPath = new Path();
+            mPath.reset();
         }
 
         private void initBitmap() {
-            BitmapFactory.Options opt = new BitmapFactory.Options();
-            opt.inPreferredConfig = Config.ARGB_8888;
-            //opt.inPurgeable = true;
-            //opt.inInputShareable = true;
-            opt.inSampleSize = 16;    //if picture very large it can optimize 1/2 memory
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Config.ARGB_8888;
+            //options.inPurgeable = true;
+            //options.inInputShareable = true;
             InputStream rawStream = getResources().openRawResource(aboveImageIds[0]);
-            aboveBitmap = BitmapFactory.decodeStream(rawStream, null, opt).copy(Config.ARGB_8888, true);
+            aboveBitmap = BitmapFactory.decodeStream(rawStream, null, options).copy(Config.ARGB_8888, true);
+            options.inSampleSize = 4;    //if picture very large it can optimize 1/2 memory
             scaledAboveBitmap = Bitmap.createScaledBitmap(aboveBitmap, screenwidth, screenheigth, true);
             canvas = new Canvas();
             drawBitmap = Bitmap.createBitmap(screenwidth, screenheigth, Config.ARGB_8888).copy(Config.ARGB_8888, true);
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawBitmap(drawBitmap, fullRect, fullRect, null);
         }
 
+        @Override
         public boolean onTouchEvent(MotionEvent event) {
             float x = event.getX();
             float y = event.getY();
