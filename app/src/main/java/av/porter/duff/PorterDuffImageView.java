@@ -110,8 +110,10 @@ public class PorterDuffImageView extends AppCompatImageView {
         options.inSampleSize = mScaleRatio;
         mScaledAboveBitmap = Bitmap.createScaledBitmap(mAboveBitmap, mScreenWidth, mScreenHeigth, true);
         mDrawCanvas = new Canvas();
+        // result Bitmap
         mDrawBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeigth, Bitmap.Config.ARGB_8888).copy(Bitmap.Config.ARGB_8888, true);
         mDrawCanvas.setBitmap(mDrawBitmap);
+        // Draw Bitmap on top of this canvas
         mDrawCanvas.drawBitmap(mScaledAboveBitmap, mScreenRect, mScreenRect, null);
     }
 
