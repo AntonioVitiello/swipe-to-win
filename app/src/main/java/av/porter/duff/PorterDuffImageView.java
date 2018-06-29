@@ -67,7 +67,7 @@ public class PorterDuffImageView extends AppCompatImageView {
         try {
             mAboveResId = typedArray.getResourceId(R.styleable.PorterDuffAttrs_aboveSrc, -1);
             mBelowResId = typedArray.getResourceId(R.styleable.PorterDuffAttrs_belowSrc, -1);
-            mScaleRatio = typedArray.getInteger(R.styleable.PorterDuffAttrs_scaleRatio, -1);
+            mScaleRatio = typedArray.getInteger(R.styleable.PorterDuffAttrs_scaleRatio, 1);
         } finally {
             typedArray.recycle();
         }
