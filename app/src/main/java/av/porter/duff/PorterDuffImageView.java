@@ -14,6 +14,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.RawRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
 import java.io.InputStream;
@@ -30,8 +31,10 @@ public class PorterDuffImageView extends AppCompatImageView {
     public int mScreenWidth;
     public int mScreenHeigth;
     private int mScaleRatio;
-    @RawRes int mAboveResId;
-    @DrawableRes int mBelowResId;
+    @RawRes
+    int mAboveResId;
+    @DrawableRes
+    int mBelowResId;
 
     // Bounds of the canvas in float Used to set bounds of member initial and background
     private Rect mScreenRect = new Rect();
@@ -61,6 +64,7 @@ public class PorterDuffImageView extends AppCompatImageView {
                     0, 0);
             readCustomProperties(typedArray);
         }
+        updateView();
     }
 
     private void readCustomProperties(TypedArray typedArray) {
@@ -74,9 +78,14 @@ public class PorterDuffImageView extends AppCompatImageView {
     }
 
     private void updateView() {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        mScreenWidth = metrics.widthPixels;
+        mScreenHeigth = metrics.heightPixels;
+        mScreenRect.set(0, 0, mScreenWidth, mScreenHeigth);
+
         setBackgroundResource(mBelowResId);
-        initPaint();
         initBitmap();
+        initPaint();
     }
 
     private void initPaint() {
@@ -104,16 +113,6 @@ public class PorterDuffImageView extends AppCompatImageView {
         mDrawBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeigth, Bitmap.Config.ARGB_8888).copy(Bitmap.Config.ARGB_8888, true);
         mDrawCanvas.setBitmap(mDrawBitmap);
         mDrawCanvas.drawBitmap(mScaledAboveBitmap, mScreenRect, mScreenRect, null);
-    }
-
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mScreenWidth = MeasureSpec.getSize(widthMeasureSpec);
-        mScreenHeigth = MeasureSpec.getSize(heightMeasureSpec);
-        mScreenRect.set(0, 0, mScreenWidth, mScreenHeigth);
-        updateView();
     }
 
     @Override
