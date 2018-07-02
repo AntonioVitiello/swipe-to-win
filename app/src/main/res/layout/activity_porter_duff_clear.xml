@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGrey">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pagamenti_header_googlepay" />
+
+    <av.porter.duff.PorterDuffClearImageView
+        android:id="@+id/porterDuffView"
+        style="@style/NormalTextWhite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/googlepay_sfondo_2"
+        android:contentDescription="@string/coming_soon" />
+
+</FrameLayout>

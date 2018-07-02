@@ -3,13 +3,13 @@ package av.porter.duff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class PorterDuffActivity extends AppCompatActivity {
-    private PorterDuffImageView mPorterDuffView;
+public class PorterDuffClearActivity extends AppCompatActivity {
+    private PorterDuffClearImageView mPorterDuffView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_porter_duff);
+        setContentView(R.layout.activity_porter_duff_clear);
 
         mPorterDuffView = findViewById(R.id.porterDuffView);
 

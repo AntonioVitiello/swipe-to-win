@@ -12,18 +12,18 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RawRes;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.View;
 
 import java.io.InputStream;
 
 /**
  * Created by Antonio Vitiello on 29/06/2018.
  */
-public class PorterDuffImageView extends AppCompatImageView {
-    private Bitmap mAboveBitmap, mDrawBitmap, mScaledAboveBitmap;
+public class PorterDuffDstInView extends View {
+    private Bitmap mDrawBitmap;
     private Paint mPaint;
     private float mX, mY;
     private Path mPath = new Path();
@@ -41,17 +41,17 @@ public class PorterDuffImageView extends AppCompatImageView {
     private int[] mPorterDuffAttrs = R.styleable.PorterDuffAttrs;
 
 
-    public PorterDuffImageView(Context context) {
+    public PorterDuffDstInView(Context context) {
         super(context);
         init(context, null, 0);
     }
 
-    public PorterDuffImageView(Context context, AttributeSet attrs) {
+    public PorterDuffDstInView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs, 0);
     }
 
-    public PorterDuffImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PorterDuffDstInView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
@@ -105,16 +105,15 @@ public class PorterDuffImageView extends AppCompatImageView {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         InputStream rawStream = getResources().openRawResource(mAboveResId);
-        mAboveBitmap = BitmapFactory.decodeStream(rawStream, null, options).copy(Bitmap.Config.ARGB_8888, true);
+        Bitmap aboveBitmap = BitmapFactory.decodeStream(rawStream, null, options).copy(Bitmap.Config.ARGB_8888, true);
         // if picture very large inSampleSize can optimize memory with subsample of the original image, returning a smaller image
         options.inSampleSize = mScaleRatio;
-        mScaledAboveBitmap = Bitmap.createScaledBitmap(mAboveBitmap, mScreenWidth, mScreenHeigth, true);
-        mDrawCanvas = new Canvas();
+        Bitmap scaledAboveBitmap = Bitmap.createScaledBitmap(aboveBitmap, mScreenWidth, mScreenHeigth, true);
         // result Bitmap
         mDrawBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeigth, Bitmap.Config.ARGB_8888).copy(Bitmap.Config.ARGB_8888, true);
         mDrawCanvas.setBitmap(mDrawBitmap);
         // Draw Bitmap on top of this canvas
-        mDrawCanvas.drawBitmap(mScaledAboveBitmap, mScreenRect, mScreenRect, null);
+        mDrawCanvas.drawBitmap(scaledAboveBitmap, mScreenRect, mScreenRect, null);
     }
 
     @Override
